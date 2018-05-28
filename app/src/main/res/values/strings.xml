@@ -1,8 +1,14 @@
 <resources>
     <string name="app_name">MovieHits</string>
+
+    <string name="movie_name">Movie Name</string>
     <string name="movie_details">Movie Details</string>
     <string name="movie_description">Movie cover</string>
     <string name="movie_backdrop">Movie backdrop</string>
+    <string name="movie_release">Year</string>
+    <string name="movie_mins">Mins</string>
+    <string name="movie_rating">8.1/10</string>
+    <string name="movie_fav_button">MARK AS FAVORITE</string>
     <string name="no_network">No internet connection</string>
     <string name="dismiss">dismiss</string>
     <string name="movie_id">MovieID</string>

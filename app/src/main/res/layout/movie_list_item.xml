@@ -25,14 +25,14 @@
             android:src="@drawable/test_poster" />
 
         <TextView
+            android:id="@+id/mv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:id="@+id/mv_title"
             android:padding="2dp"
-            android:textSize="10sp"
+            android:text="@string/movie_name"
             android:textAlignment="center"
-            android:text="Movie name"/>
+            android:textSize="10sp" />
 
 
     </LinearLayout>
