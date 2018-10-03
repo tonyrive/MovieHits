@@ -1,15 +1,29 @@
 package com.tonytekinsights.moviehits.models;
 
-public class Video {
-    private Integer id;
-    private String key;
-    private String name;
-    private String site;
-    private String type;
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import com.google.gson.annotations.SerializedName;
+
+public class Video implements Parcelable {
+    @SerializedName("id")
+    public String id;
+
+    @SerializedName("key")
+    public String key;
+
+    @SerializedName("name")
+    public String name;
+
+    @SerializedName("site")
+    public String site;
+
+    @SerializedName("type")
+    public String type;
 
     public Video() { }
 
-    public Video(Integer id, String key, String name, String site, String type) {
+    public Video(String id, String key, String name, String site, String type) {
         super();
         this.id = id;
         this.key = key;
@@ -18,43 +32,37 @@ public class Video {
         this.type = type;
     }
 
-    public Integer getId() {
-        return id;
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeValue(this.id);
+        dest.writeString(this.key);
+        dest.writeString(this.name);
+        dest.writeString(this.site);
+        dest.writeString(this.type);
     }
 
-    public String getKey() {
-        return key;
+    protected Video(Parcel in) {
+        this.id = in.readString();
+        this.key = in.readString();
+        this.name = in.readString();
+        this.site = in.readString();
+        this.type = in.readString();
     }
 
-    public void setKey(String key) {
-        this.key = key;
-    }
+    public static final Parcelable.Creator<Video> CREATOR = new Parcelable.Creator<Video>() {
+        @Override
+        public Video createFromParcel(Parcel source) {
+            return new Video(source);
+        }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSite() {
-        return site;
-    }
-
-    public void setSite(String site) {
-        this.site = site;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
+        @Override
+        public Video[] newArray(int size) {
+            return new Video[size];
+        }
+    };
 }

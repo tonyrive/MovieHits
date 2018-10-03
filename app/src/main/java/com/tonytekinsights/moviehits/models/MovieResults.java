@@ -1,12 +1,24 @@
 package com.tonytekinsights.moviehits.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
-public class MovieResults {
-    private Integer page;
-    private Integer totalMovies;
-    private Integer totalPages;
-    private List<Movie> movies;
+public class MovieResults implements Parcelable {
+    @SerializedName("page")
+    public Integer page;
+
+    @SerializedName("totalMovies")
+    public Integer totalMovies;
+
+    @SerializedName("totalPages")
+    public Integer totalPages;
+
+    @SerializedName("results")
+    public List<Movie> movies;
 
     public MovieResults() { }
 
@@ -20,36 +32,39 @@ public class MovieResults {
 
     public Integer getSize() { return this.movies.size() -1;}
 
-    public Integer getPage() {
-        return page;
-    }
-    public void setPage(Integer page) {
-        this.page = page;
-    }
-
-    public Integer getTotalMovies() {
-        return totalMovies;
-    }
-
-    public void setTotalMovies(Integer totalMovies) {
-        this.totalMovies = totalMovies;
-    }
-    public Integer getTotalPages() {
-        return totalPages;
-    }
-
-    public void setTotalPages(Integer totalPages) {
-        this.totalPages = totalPages;
-    }
-
-    public List<Movie> getMovies() {
-        return movies;
-    }
-    public void setMovies(List<Movie> movies) {
-        this.movies = movies;
-    }
-
     public void addMovies(List<Movie> movies){
         this.movies.addAll(movies);
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeValue(this.page);
+        dest.writeValue(this.totalMovies);
+        dest.writeValue(this.totalPages);
+        dest.writeTypedList(this.movies);
+    }
+
+    protected MovieResults(Parcel in) {
+        this.page = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.totalMovies = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.totalPages = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.movies = in.createTypedArrayList(Movie.CREATOR);
+    }
+
+    public static final Parcelable.Creator<MovieResults> CREATOR = new Parcelable.Creator<MovieResults>() {
+        @Override
+        public MovieResults createFromParcel(Parcel source) {
+            return new MovieResults(source);
+        }
+
+        @Override
+        public MovieResults[] newArray(int size) {
+            return new MovieResults[size];
+        }
+    };
 }

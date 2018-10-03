@@ -9,9 +9,10 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 import com.tonytekinsights.moviehits.models.Movie;
-import com.tonytekinsights.moviehits.utilities.JsonUtils;
+import com.tonytekinsights.moviehits.services.NetworkService;
 import com.tonytekinsights.moviehits.utilities.NetworkUtils;
 import com.tonytekinsights.moviehits.R;
 
@@ -52,7 +53,8 @@ public class MovieInfoActivity extends AppCompatActivity {
 
     private void loadMovie(String json){
         if(movie == null) {
-            movie = JsonUtils.parseMovieDetailsJson(json);
+            Gson gson = new Gson();
+            movie = gson.fromJson(json, Movie.class);
 
             ImageView mvPoster = (ImageView) findViewById(R.id.mv_poster);
             ImageView mvBackdrop = (ImageView) findViewById(R.id.mv_backdrop);
@@ -64,24 +66,24 @@ public class MovieInfoActivity extends AppCompatActivity {
             TextView mvRating = (TextView) findViewById(R.id.mv_rating);
 
             URL urlImage = NetworkUtils.buildUrl(this, NetworkUtils.MOVIE_URL_IMAGE);
-            Picasso.with(this)
-                    .load(urlImage + movie.getPosterPath())
+            Picasso.get()
+                    .load(urlImage + movie.poster_path)
                     .placeholder(R.drawable.test_poster)
                     .into(mvPoster);
 
-            Picasso.with(this)
-                    .load(urlImage + movie.getBackdropPath())
+            Picasso.get()
+                    .load(urlImage + movie.backdrop_path)
                     .placeholder(R.drawable.test_backdrop)
                     .into(mvBackdrop);
 
-            mvTitle.setText(movie.getTitle());
-            mvOverview.setText(movie.getOverview());
+            mvTitle.setText(movie.title);
+            mvOverview.setText(movie.overview);
 
-            String[] dt = movie.getReleaseDate().split("-");
+            String[] dt = movie.release_date.split("-");
             mvYear.setText(dt[0]);
 
-            mvMins.setText(String.format("%smins", movie.getRuntime()));
-            mvRating.setText(String.format("%s/10", movie.getScore()));
+            mvMins.setText(String.format("%smins", movie.runtime));
+            mvRating.setText(String.format("%s/10", movie.vote_average));
         }
     }
 

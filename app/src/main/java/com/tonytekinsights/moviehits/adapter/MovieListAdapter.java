@@ -19,7 +19,7 @@ import com.tonytekinsights.moviehits.utilities.NetworkUtils;
 
 import java.net.URL;
 
-public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
+public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.MovieViewHolder> {
 
     private MovieResults movieResults;
     private Context context;
@@ -63,16 +63,16 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         }
 
         public void bind(int position){
-            Movie movie = movieResults.getMovies().get(position);
-            this.movieId = movie.getId();
+            Movie movie = movieResults.movies.get(position);
+            this.movieId = movie.id;
 
-            Picasso.with(context)
-                    .load(urlImage + movie.getPosterPath())
+            Picasso.get()
+                    .load(urlImage + movie.poster_path)
                     //.placeholder(R.drawable.shape_movie_poster)
                     .into(movieImage);
 
             movieImage.setOnClickListener(this);
-            movieTitle.setText(movie.getTitle());
+            movieTitle.setText(movie.title);
         }
 
         public void onClick(View v) {

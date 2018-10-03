@@ -4,7 +4,6 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 
@@ -37,15 +36,15 @@ public class NetworkUtils {
         Uri.Builder builder = null;
 
         if (movieUrl == MOVIE_URL_IMAGE) {
-            uri = Uri.parse(context.getString(R.string.tmdb_image_base_url));
+            uri = Uri.parse(BuildConfig.TMDB_IMAGE_BASE_URL);
         } else {
-            uri = Uri.parse(context.getString(R.string.tmdb_api_base_url));
+            uri = Uri.parse(BuildConfig.TMDB_API_BASE_URL);
         }
 
         builder = uri.buildUpon();
 
         if (movieUrl != MOVIE_URL_IMAGE) {
-            builder.appendQueryParameter("api_key", BuildConfig.ApiKey);
+            builder.appendQueryParameter("api_key", BuildConfig.API_KEY);
         }
 
         switch (movieUrl){

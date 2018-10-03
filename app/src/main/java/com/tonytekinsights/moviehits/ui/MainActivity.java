@@ -14,10 +14,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import com.tonytekinsights.moviehits.adapter.MovieAdapter;
+import com.google.gson.Gson;
+import com.tonytekinsights.moviehits.adapter.MovieListAdapter;
 import com.tonytekinsights.moviehits.R;
 import com.tonytekinsights.moviehits.models.MovieResults;
-import com.tonytekinsights.moviehits.utilities.JsonUtils;
 import com.tonytekinsights.moviehits.utilities.NetworkUtils;
 
 import java.io.IOException;
@@ -25,7 +25,7 @@ import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
     private MovieResults movieResults;
-    private MovieAdapter movieAdapter;
+    private MovieListAdapter movieListAdapter;
     private RecyclerView recyclerView;
     private GridLayoutManager layoutManager;
     private int dataPage = 1;
@@ -54,8 +54,8 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.addOnScrollListener(getScrollListener(layoutManager));
 
-        movieAdapter = new MovieAdapter();
-        recyclerView.setAdapter(movieAdapter);
+        movieListAdapter = new MovieListAdapter();
+        recyclerView.setAdapter(movieListAdapter);
 
         if(savedInstanceState == null) {
             movieUrl = NetworkUtils.MOVIE_URL_POPULAR;
@@ -152,14 +152,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadMovies(String json){
+        Gson gson = new Gson();
+
         if(movieResults == null) {
-            movieResults = JsonUtils.parseMovieListJson(json);
-            movieAdapter.setData(movieResults);
+            movieResults = gson.fromJson(json, MovieResults.class);
+            movieListAdapter.setData(movieResults);
         } else {
-            MovieResults moreMovie = JsonUtils.parseMovieListJson(json);
-            movieResults.addMovies(moreMovie.getMovies());
+            MovieResults moreMovie = gson.fromJson(json, MovieResults.class);
+            movieResults.addMovies(moreMovie.movies);
         }
-        movieAdapter.notifyDataSetChanged();
+        movieListAdapter.notifyDataSetChanged();
     }
 
     private void getMovies(RequestType requestType) {
