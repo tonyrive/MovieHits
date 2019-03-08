@@ -19,7 +19,7 @@ android {
         //buildConfigField "String", "ApiKey", '\"TMDB KEY GOES HERE\"'
         buildConfigField "String", "TMDB_IMAGE_BASE_URL", '\"https://image.tmdb.org/t/p/\"'
         buildConfigField "String", "TMDB_API_BASE_URL", '\"https://api.themoviedb.org/3\"'
-        buildConfigField "String", "API_KEY", '\"d58703d23cae8a7409f86833adebadb1\"'
+        buildConfigField "String", "API_KEY", '\"YOU KEY GOES HERE\"'
 
     }
     buildTypes {
